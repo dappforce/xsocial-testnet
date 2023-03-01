@@ -6,9 +6,9 @@ mod chain_spec;
 mod service;
 mod benchmarking;
 mod cli;
-mod command;
+mod commands;
 mod rpc;
 
 fn main() -> sc_cli::Result<()> {
-	command::run()
+	commands::run()
 }

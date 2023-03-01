@@ -6,21 +6,25 @@
 #[cfg(feature = "std")]
 include!(concat!(env!("OUT_DIR"), "/wasm_binary.rs"));
 
-use pallet_grandpa::{
-	fg_primitives, AuthorityId as GrandpaId, AuthorityList as GrandpaAuthorityList,
-};
 use sp_api::impl_runtime_apis;
 use sp_consensus_aura::sr25519::AuthorityId as AuraId;
 use sp_core::{crypto::KeyTypeId, OpaqueMetadata};
 use sp_runtime::{
 	create_runtime_str, generic, impl_opaque_keys,
 	traits::{
-		AccountIdLookup, BlakeTwo256, Block as BlockT, IdentifyAccount, NumberFor, One, Verify,
+		AccountIdLookup, BlakeTwo256, Block as BlockT, IdentifyAccount, One, Verify,
 	},
 	transaction_validity::{TransactionSource, TransactionValidity},
 	ApplyExtrinsicResult, MultiSignature,
 };
 use sp_std::prelude::*;
+use frame_support::PalletId;
+
+use primitives::{
+	ApiError as AlephApiError, AuthorityId as AlephId, SessionAuthorityData,
+	Version as FinalityVersion,
+};
+
 #[cfg(feature = "std")]
 use sp_version::NativeVersion;
 use sp_version::RuntimeVersion;
@@ -40,6 +44,7 @@ pub use frame_support::{
 	StorageValue,
 };
 pub use frame_system::Call as SystemCall;
+use frame_system::EnsureRoot;
 pub use pallet_balances::Call as BalancesCall;
 pub use pallet_timestamp::Call as TimestampCall;
 use pallet_transaction_payment::{ConstFeeMultiplier, CurrencyAdapter, Multiplier};
@@ -88,7 +93,7 @@ pub mod opaque {
 	impl_opaque_keys! {
 		pub struct SessionKeys {
 			pub aura: Aura,
-			pub grandpa: Grandpa,
+            pub aleph: Aleph,
 		}
 	}
 }
@@ -118,7 +123,7 @@ pub const VERSION: RuntimeVersion = RuntimeVersion {
 /// up by `pallet_aura` to implement `fn slot_duration()`.
 ///
 /// Change this to adjust the block time.
-pub const MILLISECS_PER_BLOCK: u64 = 6000;
+pub const MILLISECS_PER_BLOCK: u64 = 1000;
 
 // NOTE: Currently it is not possible to change the slot duration after the chain has started.
 //       Attempting to do so will brick block production.
@@ -213,25 +218,6 @@ impl pallet_aura::Config for Runtime {
 	type MaxAuthorities = ConstU32<32>;
 }
 
-impl pallet_grandpa::Config for Runtime {
-	type RuntimeEvent = RuntimeEvent;
-
-	type KeyOwnerProofSystem = ();
-
-	type KeyOwnerProof =
-		<Self::KeyOwnerProofSystem as KeyOwnerProofSystem<(KeyTypeId, GrandpaId)>>::Proof;
-
-	type KeyOwnerIdentification = <Self::KeyOwnerProofSystem as KeyOwnerProofSystem<(
-		KeyTypeId,
-		GrandpaId,
-	)>>::IdentificationTuple;
-
-	type HandleEquivocation = ();
-
-	type WeightInfo = ();
-	type MaxAuthorities = ConstU32<32>;
-}
-
 impl pallet_timestamp::Config for Runtime {
 	/// A timestamp: milliseconds since the unix epoch.
 	type Moment = u64;
@@ -275,6 +261,78 @@ impl pallet_sudo::Config for Runtime {
 	type RuntimeCall = RuntimeCall;
 }
 
+impl pallet_aleph::Config for Runtime {
+	type AuthorityId = AlephId;
+	type RuntimeEvent = RuntimeEvent;
+	type SessionInfoProvider = Session;
+	type SessionManager = CollatorSelection;
+	type NextSessionAuthorityProvider = Session;
+}
+
+impl_opaque_keys! {
+    pub struct SessionKeys {
+        pub aura: Aura,
+        pub aleph: Aleph,
+    }
+}
+
+parameter_types! {
+	pub const SessionPeriod: u32 = 30/*number from short session in aleph primitives*/;
+	pub const Offset: u32 = 0;
+	pub const MaxAuthorities: u32 = 100_000;
+}
+
+impl pallet_session::Config for Runtime {
+	type RuntimeEvent = RuntimeEvent;
+	type ValidatorId = <Self as frame_system::Config>::AccountId;
+	// we don't have stash and controller, thus we don't need the convert as well.
+	type ValidatorIdOf = pallet_collator_selection::IdentityCollator;
+	type ShouldEndSession = pallet_session::PeriodicSessions<SessionPeriod, Offset>;
+	type NextSessionRotation = pallet_session::PeriodicSessions<SessionPeriod, Offset>;
+	type SessionManager = Aleph;
+	// Essentially just Aura, but lets be pedantic.
+	type SessionHandler = <SessionKeys as sp_runtime::traits::OpaqueKeys>::KeyTypeIdProviders;
+	type Keys = SessionKeys;
+	type WeightInfo = ();
+}
+
+parameter_types! {
+    pub const UncleGenerations: BlockNumber = 0;
+}
+
+impl pallet_authorship::Config for Runtime {
+	type FindAuthor = pallet_session::FindAccountFromAuthorIndex<Self, Aura>;
+	type UncleGenerations = UncleGenerations;
+	type FilterUncle = ();
+	type EventHandler = (CollatorSelection,);
+}
+
+parameter_types! {
+	pub const PotId: PalletId = PalletId(*b"PotStake");
+	pub const MaxCandidates: u32 = 1000;
+	pub const MinCandidates: u32 = 5;
+	pub const MaxInvulnerables: u32 = 100;
+}
+
+// We allow root only to execute privileged collator selection operations.
+pub type CollatorSelectionUpdateOrigin = EnsureRoot<AccountId>;
+
+impl pallet_collator_selection::Config for Runtime {
+	type RuntimeEvent = RuntimeEvent;
+	type Currency = Balances;
+	type UpdateOrigin = CollatorSelectionUpdateOrigin;
+	type PotId = PotId;
+	type MaxCandidates = MaxCandidates;
+	type MinCandidates = MinCandidates;
+	type MaxInvulnerables = MaxInvulnerables;
+	// should be a multiple of session or things will get inconsistent
+	type KickThreshold = SessionPeriod;
+	type ValidatorId = <Self as frame_system::Config>::AccountId;
+	type ValidatorIdOf = pallet_collator_selection::IdentityCollator;
+	type ValidatorRegistration = Session;
+	type WeightInfo = ();
+}
+
 /// Configure the pallet-template in pallets/template.
 impl pallet_template::Config for Runtime {
 	type RuntimeEvent = RuntimeEvent;
@@ -292,7 +350,10 @@ construct_runtime!(
 		RandomnessCollectiveFlip: pallet_randomness_collective_flip,
 		Timestamp: pallet_timestamp,
 		Aura: pallet_aura,
-		Grandpa: pallet_grandpa,
+		Authorship: pallet_authorship,
+		Session: pallet_session,
+        Aleph: pallet_aleph,
+		CollatorSelection: pallet_collator_selection,
 		Balances: pallet_balances,
 		TransactionPayment: pallet_transaction_payment,
 		Sudo: pallet_sudo,
@@ -428,35 +489,47 @@ impl_runtime_apis! {
 		}
 	}
 
-	impl fg_primitives::GrandpaApi<Block> for Runtime {
-		fn grandpa_authorities() -> GrandpaAuthorityList {
-			Grandpa::grandpa_authorities()
-		}
+    impl primitives::AlephSessionApi<Block> for Runtime {
+        fn millisecs_per_block() -> u64 {
+            MILLISECS_PER_BLOCK
+        }
 
-		fn current_set_id() -> fg_primitives::SetId {
-			Grandpa::current_set_id()
-		}
+        fn session_period() -> u32 {
+            SessionPeriod::get()
+        }
 
-		fn submit_report_equivocation_unsigned_extrinsic(
-			_equivocation_proof: fg_primitives::EquivocationProof<
-				<Block as BlockT>::Hash,
-				NumberFor<Block>,
-			>,
-			_key_owner_proof: fg_primitives::OpaqueKeyOwnershipProof,
-		) -> Option<()> {
-			None
-		}
+        fn authorities() -> Vec<AlephId> {
+            Aleph::authorities()
+        }
 
-		fn generate_key_ownership_proof(
-			_set_id: fg_primitives::SetId,
-			_authority_id: GrandpaId,
-		) -> Option<fg_primitives::OpaqueKeyOwnershipProof> {
-			// NOTE: this is the only implementation possible since we've
-			// defined our key owner proof type as a bottom type (i.e. a type
-			// with no values).
-			None
-		}
-	}
+        fn next_session_authorities() -> Result<Vec<AlephId>, AlephApiError> {
+            let next_authorities = Aleph::next_authorities();
+            if next_authorities.is_empty() {
+                return Err(AlephApiError::DecodeKey)
+            }
+
+            Ok(next_authorities)
+        }
+
+        fn authority_data() -> SessionAuthorityData {
+            SessionAuthorityData::new(Aleph::authorities(), Aleph::emergency_finalizer())
+        }
+
+        fn next_session_authority_data() -> Result<SessionAuthorityData, AlephApiError> {
+            Ok(SessionAuthorityData::new(
+                Self::next_session_authorities()?,
+                Aleph::queued_emergency_finalizer(),
+            ))
+        }
+
+        fn finality_version() -> FinalityVersion {
+            Aleph::finality_version()
+        }
+
+        fn next_session_finality_version() -> FinalityVersion {
+            Aleph::next_session_finality_version()
+        }
+    }
 
 	impl frame_system_rpc_runtime_api::AccountNonceApi<Block, AccountId, Index> for Runtime {
 		fn account_nonce(account: AccountId) -> Index {

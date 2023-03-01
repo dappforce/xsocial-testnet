@@ -1,9 +1,13 @@
 use sc_cli::RunCmd;
+use crate::aleph_cli::AlephCli;
 
 #[derive(Debug, clap::Parser)]
 pub struct Cli {
 	#[command(subcommand)]
 	pub subcommand: Option<Subcommand>,
+
+	#[command(flatten)]
+	pub aleph: AlephCli,
 
 	#[clap(flatten)]
 	pub run: RunCmd,
