@@ -149,8 +149,11 @@ fn testnet_genesis(
 		},
 		sudo: SudoConfig {
 			// Assign network admin rights.
-			key: Some(root_key),
+			key: Some(root_key.clone()),
 		},
 		transaction_payment: Default::default(),
+		spaces: xsocial_runtime::SpacesConfig {
+			endowed_account: Some(root_key),
+		},
 	}
 }

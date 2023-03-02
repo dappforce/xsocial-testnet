@@ -280,6 +280,56 @@ impl pallet_template::Config for Runtime {
 	type RuntimeEvent = RuntimeEvent;
 }
 
+use pallet_permissions::default_permissions::DefaultSpacePermissions;
+
+impl pallet_permissions::Config for Runtime {
+	type DefaultSpacePermissions = DefaultSpacePermissions;
+}
+
+parameter_types! {
+	pub const MaxSpacesPerAccount: u32 = 4096;
+}
+
+impl pallet_spaces::Config for Runtime {
+	type RuntimeEvent = RuntimeEvent;
+	type Roles = Roles;
+	type SpaceFollows = SpaceFollows;
+	type IsAccountBlocked = ()/*Moderation*/;
+	type IsContentBlocked = ()/*Moderation*/;
+	type MaxSpacesPerAccount = MaxSpacesPerAccount;
+	type WeightInfo = pallet_spaces::weights::SubstrateWeight<Runtime>;
+}
+
+parameter_types! {
+  pub const MaxUsersToProcessPerDeleteRole: u16 = 40;
+}
+
+impl pallet_roles::Config for Runtime {
+	type RuntimeEvent = RuntimeEvent;
+	type MaxUsersToProcessPerDeleteRole = MaxUsersToProcessPerDeleteRole;
+	type SpacePermissionsProvider = Spaces;
+	type SpaceFollows = SpaceFollows;
+	type IsAccountBlocked = ()/*Moderation*/;
+	type IsContentBlocked = ()/*Moderation*/;
+	type WeightInfo = pallet_roles::weights::SubstrateWeight<Runtime>;
+}
+
+parameter_types! {
+  pub const MaxCommentDepth: u32 = 10;
+}
+
+impl pallet_posts::Config for Runtime {
+	type RuntimeEvent = RuntimeEvent;
+	type MaxCommentDepth = MaxCommentDepth;
+	type IsPostBlocked = ()/*Moderation*/;
+	type WeightInfo = pallet_posts::weights::SubstrateWeight<Runtime>;
+}
+
+impl pallet_space_follows::Config for Runtime {
+	type RuntimeEvent = RuntimeEvent;
+	type WeightInfo = pallet_space_follows::weights::SubstrateWeight<Runtime>;
+}
+
 // Create the runtime by composing the FRAME pallets that were previously configured.
 construct_runtime!(
 	pub struct Runtime
@@ -298,6 +348,11 @@ construct_runtime!(
 		Sudo: pallet_sudo,
 		// Include the custom logic from the pallet-template in the runtime.
 		TemplateModule: pallet_template,
+		Permissions: pallet_permissions,
+		Spaces: pallet_spaces,
+		Roles: pallet_roles,
+		SpaceFollows: pallet_space_follows,
+		Posts: pallet_posts,
 	}
 );
 
