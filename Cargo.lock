@@ -4249,6 +4249,7 @@ dependencies = [
 [[package]]
 name = "pallet-permissions"
 version = "0.1.7"
+source = "git+https://github.com/dappforce/subsocial-parachain.git?rev=035c651a03ba94d78f1d5dbc87a5f4461cfbb664#035c651a03ba94d78f1d5dbc87a5f4461cfbb664"
 dependencies = [
  "frame-support",
  "frame-system",
@@ -4263,6 +4264,7 @@ dependencies = [
 [[package]]
 name = "pallet-posts"
 version = "0.1.7"
+source = "git+https://github.com/dappforce/subsocial-parachain.git?rev=035c651a03ba94d78f1d5dbc87a5f4461cfbb664#035c651a03ba94d78f1d5dbc87a5f4461cfbb664"
 dependencies = [
  "frame-benchmarking",
  "frame-support",
@@ -4296,19 +4298,15 @@ dependencies = [
 [[package]]
 name = "pallet-roles"
 version = "0.1.7"
+source = "git+https://github.com/dappforce/subsocial-parachain.git?rev=035c651a03ba94d78f1d5dbc87a5f4461cfbb664#035c651a03ba94d78f1d5dbc87a5f4461cfbb664"
 dependencies = [
  "frame-benchmarking",
  "frame-support",
  "frame-system",
- "pallet-balances",
  "pallet-permissions",
- "pallet-spaces",
  "pallet-timestamp",
  "parity-scale-codec",
  "scale-info",
- "serde",
- "sp-core",
- "sp-io",
  "sp-runtime",
  "sp-std",
  "subsocial-support",
@@ -4338,6 +4336,7 @@ dependencies = [
 [[package]]
 name = "pallet-space-follows"
 version = "0.1.7"
+source = "git+https://github.com/dappforce/subsocial-parachain.git?rev=035c651a03ba94d78f1d5dbc87a5f4461cfbb664#035c651a03ba94d78f1d5dbc87a5f4461cfbb664"
 dependencies = [
  "frame-benchmarking",
  "frame-support",
@@ -4352,6 +4351,7 @@ dependencies = [
 [[package]]
 name = "pallet-spaces"
 version = "0.1.7"
+source = "git+https://github.com/dappforce/subsocial-parachain.git?rev=035c651a03ba94d78f1d5dbc87a5f4461cfbb664#035c651a03ba94d78f1d5dbc87a5f4461cfbb664"
 dependencies = [
  "frame-benchmarking",
  "frame-support",
@@ -4378,20 +4378,6 @@ dependencies = [
  "sp-io",
  "sp-runtime",
  "sp-std",
-]
-
-[[package]]
-name = "pallet-template"
-version = "4.0.0-dev"
-dependencies = [
- "frame-benchmarking",
- "frame-support",
- "frame-system",
- "parity-scale-codec",
- "scale-info",
- "sp-core",
- "sp-io",
- "sp-runtime",
 ]
 
 [[package]]
@@ -7612,6 +7598,7 @@ dependencies = [
 [[package]]
 name = "subsocial-support"
 version = "0.1.7"
+source = "git+https://github.com/dappforce/subsocial-parachain.git?rev=035c651a03ba94d78f1d5dbc87a5f4461cfbb664#035c651a03ba94d78f1d5dbc87a5f4461cfbb664"
 dependencies = [
  "frame-support",
  "frame-system",
@@ -9432,7 +9419,6 @@ dependencies = [
  "pallet-space-follows",
  "pallet-spaces",
  "pallet-sudo",
- "pallet-template",
  "pallet-timestamp",
  "pallet-transaction-payment",
  "pallet-transaction-payment-rpc-runtime-api",
