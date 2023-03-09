@@ -41,6 +41,7 @@ pub use frame_support::{
 };
 use frame_support::weights::ConstantMultiplier;
 pub use frame_system::Call as SystemCall;
+use frame_system::EnsureRoot;
 pub use pallet_balances::Call as BalancesCall;
 pub use pallet_timestamp::Call as TimestampCall;
 use pallet_transaction_payment::{ConstFeeMultiplier, CurrencyAdapter, Multiplier};
@@ -272,7 +273,7 @@ parameter_types! {
 
 impl pallet_transaction_payment::Config for Runtime {
 	type RuntimeEvent = RuntimeEvent;
-	type OnChargeTransaction = CurrencyAdapter<Balances, ()>;
+	type OnChargeTransaction = Energy;
 	type OperationalFeeMultiplier = ConstU8<5>;
 	type WeightToFee = IdentityFee<Balance>;
 	type LengthToFee = ConstantMultiplier<Balance, TransactionByteFee>;
@@ -334,6 +335,21 @@ impl pallet_space_follows::Config for Runtime {
 	type WeightInfo = pallet_space_follows::weights::SubstrateWeight<Runtime>;
 }
 
+parameter_types! {
+	pub DefaultValueCoefficient: FixedI64 = FixedI64::checked_from_rational(1_25, 100).unwrap();
+}
+
+impl pallet_energy::Config for Runtime {
+	type RuntimeEvent = RuntimeEvent;
+	type Currency = Balances;
+	type Balance = Balance;
+	type DefaultValueCoefficient = DefaultValueCoefficient;
+	type UpdateOrigin = EnsureRoot<AccountId>;
+	type NativeOnChargeTransaction = pallet_transaction_payment::CurrencyAdapter<Balances, ()>;
+	type ExistentialDeposit = ExistentialDeposit;
+	type WeightInfo = pallet_energy::weights::SubstrateWeight<Runtime>;
+}
+
 // Create the runtime by composing the FRAME pallets that were previously configured.
 construct_runtime!(
 	pub struct Runtime
@@ -356,6 +372,7 @@ construct_runtime!(
 		Roles: pallet_roles,
 		SpaceFollows: pallet_space_follows,
 		Posts: pallet_posts,
+		Energy: pallet_energy,
 	}
 );
 

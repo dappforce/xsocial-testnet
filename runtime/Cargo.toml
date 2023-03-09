@@ -52,6 +52,7 @@ pallet-spaces = { default-features = false, git = "https://github.com/dappforce/
 pallet-posts = { default-features = false, git = "https://github.com/dappforce/subsocial-parachain.git", rev = "035c651a03ba94d78f1d5dbc87a5f4461cfbb664" }
 pallet-roles = { default-features = false, git = "https://github.com/dappforce/subsocial-parachain.git", rev = "035c651a03ba94d78f1d5dbc87a5f4461cfbb664" }
 pallet-space-follows = { default-features = false, git = "https://github.com/dappforce/subsocial-parachain.git", rev = "035c651a03ba94d78f1d5dbc87a5f4461cfbb664" }
+pallet-energy = { default-features = false, git = "https://github.com/dappforce/subsocial-parachain.git", rev = "035c651a03ba94d78f1d5dbc87a5f4461cfbb664" }
 
 [build-dependencies]
 substrate-wasm-builder = { version = "5.0.0-dev", git = "https://github.com/paritytech/substrate.git", optional = true, branch = "polkadot-v0.9.37" }
@@ -94,6 +95,7 @@ std = [
     "pallet-roles/std",
     "pallet-posts/std",
     "pallet-space-follows/std",
+    "pallet-energy/std",
 ]
 runtime-benchmarks = [
     "frame-benchmarking/runtime-benchmarks",
@@ -120,6 +122,7 @@ try-runtime = [
     "pallet-roles/try-runtime",
     "pallet-space-follows/try-runtime",
     "pallet-posts/try-runtime",
+    "pallet-energy/try-runtime",
     "pallet-timestamp/try-runtime",
     "pallet-transaction-payment/try-runtime",
 ]
