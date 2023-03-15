@@ -1,6 +1,9 @@
 [workspace]
 members = [
-    "node",
+    "node/cli",
+    "node/executor",
+    "node/primitives",
+    "node/rpc",
 #    "pallets/*",
     "runtime",
 ]
