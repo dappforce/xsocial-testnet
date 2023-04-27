@@ -351,6 +351,13 @@ impl pallet_energy::Config for Runtime {
 	type WeightInfo = pallet_energy::weights::SubstrateWeight<Runtime>;
 }
 
+impl pallet_evm_accounts::Config for Runtime {
+	type RuntimeEvent = RuntimeEvent;
+	type RuntimeCall = RuntimeCall;
+	type CallHasher = BlakeTwo256;
+	type MaxLinkedAccounts = ConstU32<256>;
+}
+
 // Create the runtime by composing the FRAME pallets that were previously configured.
 construct_runtime!(
 	pub struct Runtime
@@ -374,6 +381,7 @@ construct_runtime!(
 		SpaceFollows: pallet_space_follows,
 		Posts: pallet_posts,
 		Energy: pallet_energy,
+		EvmAccounts: pallet_evm_accounts,
 	}
 );
 
