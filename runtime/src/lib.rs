@@ -30,6 +30,7 @@ pub use frame_support::{
 	construct_runtime, parameter_types,
 	traits::{
 		ConstU128, ConstU32, ConstU64, ConstU8, KeyOwnerProofSystem, Randomness, StorageInfo,
+		InstanceFilter,
 	},
 	weights::{
 		constants::{
@@ -114,10 +115,10 @@ pub const VERSION: RuntimeVersion = RuntimeVersion {
 	spec_name: create_runtime_str!("xsocial"),
 	impl_name: create_runtime_str!("subsocial-xsocial-testnet"),
 	authoring_version: 1,
-	spec_version: 100,
+	spec_version: 102,
 	impl_version: 1,
 	apis: RUNTIME_API_VERSIONS,
-	transaction_version: 1,
+	transaction_version: 2,
 	state_version: 1,
 };
 
@@ -280,6 +281,117 @@ impl pallet_transaction_payment::Config for Runtime {
 	type FeeMultiplierUpdate = ConstFeeMultiplier<FeeMultiplier>;
 }
 
+parameter_types! {
+	// One storage item; key size 32, value size 8; .
+	pub const ProxyDepositBase: Balance = deposit(1, 8);
+	// Additional storage item size of 33 bytes.
+	pub const ProxyDepositFactor: Balance = deposit(0, 33);
+	pub const MaxProxies: u16 = 32;
+	pub const AnnouncementDepositBase: Balance = deposit(1, 8);
+	pub const AnnouncementDepositFactor: Balance = deposit(0, 66);
+	pub const MaxPending: u16 = 32;
+}
+
+/// The type used to represent the kinds of proxying allowed.
+#[derive(
+	Copy,
+	Clone,
+	Eq,
+	PartialEq,
+	Ord,
+	PartialOrd,
+	codec::Encode,
+	codec::Decode,
+	sp_runtime::RuntimeDebug,
+	codec::MaxEncodedLen,
+	scale_info::TypeInfo,
+)]
+pub enum ProxyType {
+	Any,
+	DomainRegistrar,
+	SocialActions,
+	Management,
+	SocialActionsProxy,
+}
+
+impl Default for ProxyType {
+	fn default() -> Self {
+		Self::Any
+	}
+}
+
+impl InstanceFilter<RuntimeCall> for ProxyType {
+	fn filter(&self, c: &RuntimeCall) -> bool {
+		match self {
+			ProxyType::Any => true,
+			ProxyType::DomainRegistrar => {
+				/*if let RuntimeCall::Sudo(pallet_sudo::Call::sudo { call, .. }) = c {
+					return matches!(
+						&**call,
+						RuntimeCall::Domains(pallet_domains::Call::force_register_domain { .. })
+					)
+				}*/
+				false
+			},
+			ProxyType::SocialActions => matches!(
+				c,
+				RuntimeCall::Posts(..)
+					| RuntimeCall::Reactions(..)
+					| RuntimeCall::AccountFollows(..)
+					| RuntimeCall::SpaceFollows(..)
+					| RuntimeCall::Spaces(..)
+					| RuntimeCall::Profiles(..)
+			),
+			// TODO: Think on this proxy type. We probably need this to extend `SocialActions` or either replace it.
+			ProxyType::Management => matches!(
+				c,
+				RuntimeCall::Spaces(..)
+					| RuntimeCall::SpaceOwnership(..)
+					| RuntimeCall::Roles(..)
+					| RuntimeCall::Profiles(..)
+					// | RuntimeCall::Domains(..)
+			),
+			ProxyType::SocialActionsProxy => {
+				matches!(
+					c,
+					RuntimeCall::Proxy(pallet_proxy::Call::proxy { call, .. })
+					if ProxyType::SocialActions.filter(call),
+				)
+			},
+		}
+	}
+
+	fn is_superset(&self, o: &Self) -> bool {
+		match (self, o) {
+			(ProxyType::Any, _) => true,
+			(_, ProxyType::Any) => false,
+			_ => false,
+		}
+	}
+}
+
+impl pallet_proxy::Config for Runtime {
+	type RuntimeEvent = RuntimeEvent;
+	type RuntimeCall = RuntimeCall;
+	type Currency = Balances;
+	type ProxyType = ProxyType;
+	type ProxyDepositBase = ProxyDepositBase;
+	type ProxyDepositFactor = ProxyDepositFactor;
+	type MaxProxies = MaxProxies;
+	type WeightInfo = ();
+	type MaxPending = MaxPending;
+	type CallHasher = BlakeTwo256;
+	type AnnouncementDepositBase = AnnouncementDepositBase;
+	type AnnouncementDepositFactor = AnnouncementDepositFactor;
+}
+
+impl pallet_utility::Config for Runtime {
+	type RuntimeEvent = RuntimeEvent;
+	type RuntimeCall = RuntimeCall;
+	type PalletsOrigin = OriginCaller;
+	type WeightInfo = ();
+}
+
 impl pallet_sudo::Config for Runtime {
 	type RuntimeEvent = RuntimeEvent;
 	type RuntimeCall = RuntimeCall;
@@ -305,6 +417,16 @@ impl pallet_spaces::Config for Runtime {
 	type WeightInfo = pallet_spaces::weights::SubstrateWeight<Runtime>;
 }
 
+impl pallet_space_ownership::Config for Runtime {
+	type RuntimeEvent = RuntimeEvent;
+	type ProfileManager = Profiles;
+	type WeightInfo = pallet_space_ownership::weights::SubstrateWeight<Runtime>;
+}
+
+impl pallet_account_follows::Config for Runtime {
+	type RuntimeEvent = RuntimeEvent;
+}
+
 parameter_types! {
   pub const MaxUsersToProcessPerDeleteRole: u16 = 40;
 }
@@ -328,6 +450,18 @@ impl pallet_posts::Config for Runtime {
 	type MaxCommentDepth = MaxCommentDepth;
 	type IsPostBlocked = ()/*Moderation*/;
 	type WeightInfo = pallet_posts::weights::SubstrateWeight<Runtime>;
+}
+
+impl pallet_reactions::Config for Runtime {
+	type RuntimeEvent = RuntimeEvent;
+	type WeightInfo = pallet_reactions::weights::SubstrateWeight<Runtime>;
+}
+
+impl pallet_profiles::Config for Runtime {
+	type RuntimeEvent = RuntimeEvent;
+	type SpacePermissionsProvider = Spaces;
+	type SpacesInterface = Spaces;
+	type WeightInfo = pallet_profiles::weights::SubstrateWeight<Runtime>;
 }
 
 impl pallet_space_follows::Config for Runtime {
@@ -366,22 +500,33 @@ construct_runtime!(
 		NodeBlock = opaque::Block,
 		UncheckedExtrinsic = UncheckedExtrinsic,
 	{
-		System: frame_system,
-		RandomnessCollectiveFlip: pallet_randomness_collective_flip,
-		Timestamp: pallet_timestamp,
-		Aura: pallet_aura,
-		Grandpa: pallet_grandpa,
-		Balances: pallet_balances,
-		TransactionPayment: pallet_transaction_payment,
-		Sudo: pallet_sudo,
+		System: frame_system = 0,
+		RandomnessCollectiveFlip: pallet_randomness_collective_flip = 1,
+		Timestamp: pallet_timestamp = 2,
+		Aura: pallet_aura = 3,
+		Grandpa: pallet_grandpa = 4,
+		Balances: pallet_balances = 5,
+		TransactionPayment: pallet_transaction_payment = 6,
 
-		Permissions: pallet_permissions,
-		Spaces: pallet_spaces,
-		Roles: pallet_roles,
-		SpaceFollows: pallet_space_follows,
-		Posts: pallet_posts,
-		Energy: pallet_energy,
-		EvmAccounts: pallet_evm_accounts,
+		Proxy: pallet_proxy = 11,
+		Utility: pallet_utility = 12,
+
+		// Subsocial Pallets
+		// Domains: pallet_domains = 60,
+		Energy: pallet_energy = 61,
+		EvmAccounts: pallet_evm_accounts = 62,
+
+		Permissions: pallet_permissions = 70,
+		Roles: pallet_roles = 71,
+		AccountFollows: pallet_account_follows = 72,
+		Profiles: pallet_profiles = 73,
+		SpaceFollows: pallet_space_follows = 74,
+		SpaceOwnership: pallet_space_ownership = 75,
+		Spaces: pallet_spaces = 76,
+		Posts: pallet_posts = 77,
+		Reactions: pallet_reactions = 78,
+
+		Sudo: pallet_sudo = 255,
 	}
 );
 
