@@ -1,15 +1,17 @@
-use node_template_runtime::{
-	AccountId, AuraConfig, BalancesConfig, GenesisConfig, GrandpaConfig, Signature, SudoConfig,
-	SystemConfig, WASM_BINARY,
-};
+use xsocial_runtime::{AccountId, AuraConfig, BalancesConfig, GenesisConfig, GrandpaConfig, Signature, SudoConfig, SystemConfig, UNIT, WASM_BINARY};
 use sc_service::ChainType;
+use sc_chain_spec::Properties;
+use sc_telemetry::TelemetryEndpoints;
 use sp_consensus_aura::sr25519::AuthorityId as AuraId;
 use sp_core::{sr25519, Pair, Public};
 use sp_finality_grandpa::AuthorityId as GrandpaId;
 use sp_runtime::traits::{IdentifyAccount, Verify};
+use hex_literal::hex;
+use sp_core::crypto::UncheckedInto;
 
 // The URL for the telemetry server.
-// const STAGING_TELEMETRY_URL: &str = "wss://telemetry.polkadot.io/submit/";
+const STAGING_TELEMETRY_URL: &str = "wss://telemetry.polkadot.io/submit/";
+const DEFAULT_PROTOCOL_ID: &str = "sub-xsocial-v0";
 
 /// Specialized `ChainSpec`. This is a specialization of the general Substrate ChainSpec type.
 pub type ChainSpec = sc_service::GenericChainSpec<GenesisConfig>;
@@ -70,7 +72,7 @@ pub fn development_config() -> Result<ChainSpec, String> {
 		None,
 		None,
 		// Properties
-		None,
+		Some(subsocial_properties()),
 		// Extensions
 		None,
 	))
@@ -124,6 +126,57 @@ pub fn local_testnet_config() -> Result<ChainSpec, String> {
 	))
 }
 
+pub fn xsocial_testnet_config() -> Result<ChainSpec, String> {
+	ChainSpec::from_json_bytes(&include_bytes!("../res/xsocial.json")[..])
+}
+
+pub fn staging_testnet_config() -> Result<ChainSpec, String> {
+	let wasm_binary = WASM_BINARY.ok_or_else(|| "Development wasm not available".to_string())?;
+
+	Ok(ChainSpec::from_genesis(
+		// Name
+		"XSocial Testnet",
+		// ID
+		"xsocial_testnet",
+		ChainType::Live,
+		move || {
+			let root_key: AccountId = hex!["a8d5b1558ee63ed2c55c8fb71afd2cbe7a2f61c0fc2dbab741ca652ecf6a3f45"].into();
+			let initial_authorities: Vec<(AuraId, GrandpaId)> = vec![
+				(
+					hex!["d4f4482d82913b5a4ef195bba7ec5567ee04b6ea784139c04ee5e77530670149"].unchecked_into(),
+					hex!["419c48625508cc74c8c125dd0132158d3583b479975e516c3c2cc1457d11a7c5"].unchecked_into(),
+				),
+				(
+					hex!["640f97526d653b620d1ccbdefa4cb212cc0dfc76f77a0f631f96f009d986464b"].unchecked_into(),
+					hex!["b553650f5032ecadba5df3bd35e8d280bc6f5cdff1beda8c504d6cfecc89c63a"].unchecked_into(),
+				),
+			];
+
+			testnet_genesis(
+				wasm_binary,
+				// Initial PoA authorities
+				initial_authorities,
+				// Sudo account
+				root_key.clone(),
+				// Pre-funded accounts
+				vec![root_key.clone()],
+				true,
+			)
+		},
+		// Bootnodes
+		vec![],
+		// Telemetry
+		TelemetryEndpoints::new(vec![(STAGING_TELEMETRY_URL.to_string(), 0)]).ok(),
+		// Protocol ID
+		Some(DEFAULT_PROTOCOL_ID),
+		// Properties
+		None,
+		Some(subsocial_properties()),
+		// Extensions
+		None,
+	))
+}
+
 /// Configure initial storage state for FRAME modules.
 fn testnet_genesis(
 	wasm_binary: &[u8],
@@ -139,7 +192,7 @@ fn testnet_genesis(
 		},
 		balances: BalancesConfig {
 			// Configure endowed accounts with initial balance of 1 << 60.
-			balances: endowed_accounts.iter().cloned().map(|k| (k, 1 << 60)).collect(),
+			balances: endowed_accounts.iter().cloned().map(|k| (k, 1_000_000 * UNIT)).collect(),
 		},
 		aura: AuraConfig {
 			authorities: initial_authorities.iter().map(|x| (x.0.clone())).collect(),
@@ -149,8 +202,21 @@ fn testnet_genesis(
 		},
 		sudo: SudoConfig {
 			// Assign network admin rights.
-			key: Some(root_key),
+			key: Some(root_key.clone()),
 		},
 		transaction_payment: Default::default(),
+		spaces: xsocial_runtime::SpacesConfig {
+			endowed_account: Some(root_key),
+		},
 	}
+}
+
+pub fn subsocial_properties() -> Properties {
+	let mut properties = Properties::new();
+
+	properties.insert("ss58Format".into(), 28.into());
+	properties.insert("tokenDecimals".into(), 10.into());
+	properties.insert("tokenSymbol".into(), "SUB".into());
+
+	properties
 }
