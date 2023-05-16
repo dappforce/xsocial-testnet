@@ -488,7 +488,7 @@ impl pallet_energy::Config for Runtime {
 impl pallet_evm_accounts::Config for Runtime {
 	type RuntimeEvent = RuntimeEvent;
 	type RuntimeCall = RuntimeCall;
-	type CallHasher = BlakeTwo256;
+	// type CallHasher = BlakeTwo256;
 	type MaxLinkedAccounts = ConstU32<256>;
 }
 
