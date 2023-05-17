@@ -52,14 +52,16 @@ frame-system-benchmarking = { default-features = false, git = "https://github.co
 pallet-account-follows = { default-features = false, git = "https://github.com/dappforce/subsocial-parachain.git", rev = "035c651a03ba94d78f1d5dbc87a5f4461cfbb664" }
 pallet-domains = { default-features = false, git = "https://github.com/dappforce/subsocial-parachain.git", rev = "035c651a03ba94d78f1d5dbc87a5f4461cfbb664" }
 pallet-energy = { default-features = false, git = "https://github.com/dappforce/subsocial-parachain.git", rev = "035c651a03ba94d78f1d5dbc87a5f4461cfbb664" }
-pallet-permissions = { default-features = false, git = "https://github.com/dappforce/subsocial-parachain.git", rev = "035c651a03ba94d78f1d5dbc87a5f4461cfbb664" }
-pallet-posts = { default-features = false, git = "https://github.com/dappforce/subsocial-parachain.git", rev = "035c651a03ba94d78f1d5dbc87a5f4461cfbb664" }
-pallet-profiles = { default-features = false, git = "https://github.com/dappforce/subsocial-parachain.git", rev = "035c651a03ba94d78f1d5dbc87a5f4461cfbb664" }
-pallet-reactions = { default-features = false, git = "https://github.com/dappforce/subsocial-parachain.git", rev = "035c651a03ba94d78f1d5dbc87a5f4461cfbb664" }
-pallet-roles = { default-features = false, git = "https://github.com/dappforce/subsocial-parachain.git", rev = "035c651a03ba94d78f1d5dbc87a5f4461cfbb664" }
-pallet-space-follows = { default-features = false, git = "https://github.com/dappforce/subsocial-parachain.git", rev = "035c651a03ba94d78f1d5dbc87a5f4461cfbb664" }
-pallet-space-ownership = { default-features = false, git = "https://github.com/dappforce/subsocial-parachain.git", rev = "035c651a03ba94d78f1d5dbc87a5f4461cfbb664" }
-pallet-spaces = { default-features = false, git = "https://github.com/dappforce/subsocial-parachain.git", rev = "035c651a03ba94d78f1d5dbc87a5f4461cfbb664" }
+pallet-permissions = { default-features = false, git = "https://github.com/dappforce/subsocial-parachain.git", branch = "dev/resource-discussions" }
+pallet-posts = { default-features = false, git = "https://github.com/dappforce/subsocial-parachain.git", branch = "dev/resource-discussions" }
+pallet-profiles = { default-features = false, git = "https://github.com/dappforce/subsocial-parachain.git", branch = "dev/resource-discussions" }
+pallet-reactions = { default-features = false, git = "https://github.com/dappforce/subsocial-parachain.git", branch = "dev/resource-discussions" }
+# FIXME: change when merged to main
+pallet-resource-discussions = { default-features = false, git = "https://github.com/dappforce/subsocial-parachain.git", branch = "dev/resource-discussions" }
+pallet-roles = { default-features = false, git = "https://github.com/dappforce/subsocial-parachain.git", branch = "dev/resource-discussions" }
+pallet-space-follows = { default-features = false, git = "https://github.com/dappforce/subsocial-parachain.git", branch = "dev/resource-discussions" }
+pallet-space-ownership = { default-features = false, git = "https://github.com/dappforce/subsocial-parachain.git", branch = "dev/resource-discussions" }
+pallet-spaces = { default-features = false, git = "https://github.com/dappforce/subsocial-parachain.git", branch = "dev/resource-discussions" }
 # FIXME: change when merged to main
 pallet-evm-accounts = { default-features = false, git = "https://github.com/dappforce/subsocial-parachain.git", branch = "tarekkma/eth-integration" }
 
@@ -108,6 +110,7 @@ std = [
 	"pallet-posts/std",
 	"pallet-profiles/std",
 	"pallet-reactions/std",
+	"pallet-resource-discussions/std",
 	"pallet-roles/std",
 	"pallet-space-follows/std",
 	"pallet-space-ownership/std",
@@ -128,6 +131,7 @@ runtime-benchmarks = [
 	"pallet-domains/runtime-benchmarks",
 	"pallet-energy/runtime-benchmarks",
 	"pallet-reactions/runtime-benchmarks",
+	"pallet-resource-discussions/runtime-benchmarks",
 	"pallet-roles/runtime-benchmarks",
 	"pallet-space-follows/runtime-benchmarks",
 	"pallet-space-ownership/runtime-benchmarks",
@@ -163,6 +167,7 @@ try-runtime = [
 	"pallet-posts/try-runtime",
 	"pallet-profiles/try-runtime",
 	"pallet-reactions/try-runtime",
+	"pallet-resource-discussions/try-runtime",
 	"pallet-roles/try-runtime",
 	"pallet-space-follows/try-runtime",
 	"pallet-space-ownership/try-runtime",
