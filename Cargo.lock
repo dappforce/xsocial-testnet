@@ -4336,7 +4336,7 @@ dependencies = [
 [[package]]
 name = "pallet-permissions"
 version = "0.1.8"
-source = "git+https://github.com/dappforce/subsocial-parachain.git?branch=dev/resource-discussions#80cbe9c1b4dfa066d26bb1afc836f96aa14c32a6"
+source = "git+https://github.com/dappforce/subsocial-parachain.git?branch=dev/resource-discussions#e7e7367490348abb41671d785b4a6a1fadf5942d"
 dependencies = [
  "frame-support",
  "frame-system",
@@ -4351,7 +4351,7 @@ dependencies = [
 [[package]]
 name = "pallet-posts"
 version = "0.1.8"
-source = "git+https://github.com/dappforce/subsocial-parachain.git?branch=dev/resource-discussions#80cbe9c1b4dfa066d26bb1afc836f96aa14c32a6"
+source = "git+https://github.com/dappforce/subsocial-parachain.git?branch=dev/resource-discussions#e7e7367490348abb41671d785b4a6a1fadf5942d"
 dependencies = [
  "frame-benchmarking",
  "frame-support",
@@ -4387,7 +4387,7 @@ dependencies = [
 [[package]]
 name = "pallet-profiles"
 version = "0.1.8"
-source = "git+https://github.com/dappforce/subsocial-parachain.git?branch=dev/resource-discussions#80cbe9c1b4dfa066d26bb1afc836f96aa14c32a6"
+source = "git+https://github.com/dappforce/subsocial-parachain.git?branch=dev/resource-discussions#e7e7367490348abb41671d785b4a6a1fadf5942d"
 dependencies = [
  "frame-benchmarking",
  "frame-support",
@@ -4432,7 +4432,7 @@ dependencies = [
 [[package]]
 name = "pallet-reactions"
 version = "0.1.8"
-source = "git+https://github.com/dappforce/subsocial-parachain.git?branch=dev/resource-discussions#80cbe9c1b4dfa066d26bb1afc836f96aa14c32a6"
+source = "git+https://github.com/dappforce/subsocial-parachain.git?branch=dev/resource-discussions#e7e7367490348abb41671d785b4a6a1fadf5942d"
 dependencies = [
  "frame-benchmarking",
  "frame-support",
@@ -4452,7 +4452,7 @@ dependencies = [
 [[package]]
 name = "pallet-resource-discussions"
 version = "0.1.8"
-source = "git+https://github.com/dappforce/subsocial-parachain.git?branch=dev/resource-discussions#80cbe9c1b4dfa066d26bb1afc836f96aa14c32a6"
+source = "git+https://github.com/dappforce/subsocial-parachain.git?branch=dev/resource-discussions#e7e7367490348abb41671d785b4a6a1fadf5942d"
 dependencies = [
  "frame-benchmarking",
  "frame-support",
@@ -4469,7 +4469,7 @@ dependencies = [
 [[package]]
 name = "pallet-roles"
 version = "0.1.8"
-source = "git+https://github.com/dappforce/subsocial-parachain.git?branch=dev/resource-discussions#80cbe9c1b4dfa066d26bb1afc836f96aa14c32a6"
+source = "git+https://github.com/dappforce/subsocial-parachain.git?branch=dev/resource-discussions#e7e7367490348abb41671d785b4a6a1fadf5942d"
 dependencies = [
  "frame-benchmarking",
  "frame-support",
@@ -4508,7 +4508,7 @@ dependencies = [
 [[package]]
 name = "pallet-space-follows"
 version = "0.1.8"
-source = "git+https://github.com/dappforce/subsocial-parachain.git?branch=dev/resource-discussions#80cbe9c1b4dfa066d26bb1afc836f96aa14c32a6"
+source = "git+https://github.com/dappforce/subsocial-parachain.git?branch=dev/resource-discussions#e7e7367490348abb41671d785b4a6a1fadf5942d"
 dependencies = [
  "frame-benchmarking",
  "frame-support",
@@ -4523,7 +4523,7 @@ dependencies = [
 [[package]]
 name = "pallet-space-ownership"
 version = "0.1.8"
-source = "git+https://github.com/dappforce/subsocial-parachain.git?branch=dev/resource-discussions#80cbe9c1b4dfa066d26bb1afc836f96aa14c32a6"
+source = "git+https://github.com/dappforce/subsocial-parachain.git?branch=dev/resource-discussions#e7e7367490348abb41671d785b4a6a1fadf5942d"
 dependencies = [
  "frame-benchmarking",
  "frame-support",
@@ -4538,7 +4538,7 @@ dependencies = [
 [[package]]
 name = "pallet-spaces"
 version = "0.1.8"
-source = "git+https://github.com/dappforce/subsocial-parachain.git?branch=dev/resource-discussions#80cbe9c1b4dfa066d26bb1afc836f96aa14c32a6"
+source = "git+https://github.com/dappforce/subsocial-parachain.git?branch=dev/resource-discussions#e7e7367490348abb41671d785b4a6a1fadf5942d"
 dependencies = [
  "frame-benchmarking",
  "frame-support",
@@ -7815,7 +7815,7 @@ dependencies = [
 [[package]]
 name = "subsocial-support"
 version = "0.1.8"
-source = "git+https://github.com/dappforce/subsocial-parachain.git?branch=dev/resource-discussions#80cbe9c1b4dfa066d26bb1afc836f96aa14c32a6"
+source = "git+https://github.com/dappforce/subsocial-parachain.git?branch=dev/resource-discussions#e7e7367490348abb41671d785b4a6a1fadf5942d"
 dependencies = [
  "frame-support",
  "frame-system",
