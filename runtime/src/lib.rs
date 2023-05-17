@@ -115,7 +115,7 @@ pub const VERSION: RuntimeVersion = RuntimeVersion {
 	spec_name: create_runtime_str!("xsocial"),
 	impl_name: create_runtime_str!("subsocial-xsocial-testnet"),
 	authoring_version: 1,
-	spec_version: 102,
+	spec_version: 103,
 	impl_version: 1,
 	apis: RUNTIME_API_VERSIONS,
 	transaction_version: 2,
@@ -492,6 +492,11 @@ impl pallet_evm_accounts::Config for Runtime {
 	type MaxLinkedAccounts = ConstU32<256>;
 }
 
+impl pallet_resource_discussions::Config for Runtime {
+	type RuntimeEvent = RuntimeEvent;
+	type MaxResourceIdLength = ConstU32<256>;
+}
+
 // Create the runtime by composing the FRAME pallets that were previously configured.
 construct_runtime!(
 	pub struct Runtime
@@ -515,6 +520,7 @@ construct_runtime!(
 		// Domains: pallet_domains = 60,
 		Energy: pallet_energy = 61,
 		EvmAccounts: pallet_evm_accounts = 62,
+		ResourceDiscussions: pallet_resource_discussions = 63,
 
 		Permissions: pallet_permissions = 70,
 		Roles: pallet_roles = 71,
