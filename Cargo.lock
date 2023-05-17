@@ -4276,8 +4276,8 @@ dependencies = [
 
 [[package]]
 name = "pallet-evm-accounts"
-version = "0.1.7"
-source = "git+https://github.com/dappforce/subsocial-parachain.git?branch=dev/evm-linking#dc2be95df768bc7fb58ea748f8af00ec17ec42ae"
+version = "0.1.8"
+source = "git+https://github.com/dappforce/subsocial-parachain.git?branch=dev/evm-linking#2da0532dbe1f85f9068bc76ac8d67abe84e0b198"
 dependencies = [
  "frame-benchmarking",
  "frame-support",
@@ -4289,6 +4289,7 @@ dependencies = [
  "parity-scale-codec",
  "scale-info",
  "sp-core",
+ "sp-core-hashing",
  "sp-io",
  "sp-runtime",
  "sp-std",
