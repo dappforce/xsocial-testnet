@@ -115,10 +115,10 @@ pub const VERSION: RuntimeVersion = RuntimeVersion {
 	spec_name: create_runtime_str!("xsocial"),
 	impl_name: create_runtime_str!("subsocial-xsocial-testnet"),
 	authoring_version: 1,
-	spec_version: 103,
+	spec_version: 104,
 	impl_version: 1,
 	apis: RUNTIME_API_VERSIONS,
-	transaction_version: 2,
+	transaction_version: 3,
 	state_version: 1,
 };
 
@@ -488,7 +488,7 @@ impl pallet_energy::Config for Runtime {
 impl pallet_evm_accounts::Config for Runtime {
 	type RuntimeEvent = RuntimeEvent;
 	type RuntimeCall = RuntimeCall;
-	type CallHasher = BlakeTwo256;
+	// type CallHasher = BlakeTwo256;
 	type MaxLinkedAccounts = ConstU32<256>;
 }
 
@@ -566,6 +566,7 @@ pub type Executive = frame_executive::Executive<
 	frame_system::ChainContext<Runtime>,
 	Runtime,
 	AllPalletsWithSystem,
+	pallet_evm_accounts::migration::v1::MigrateToV1<Runtime>,
 >;
 
 #[cfg(feature = "runtime-benchmarks")]
