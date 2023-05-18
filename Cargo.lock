@@ -4277,14 +4277,13 @@ dependencies = [
 [[package]]
 name = "pallet-evm-accounts"
 version = "0.1.8"
-source = "git+https://github.com/dappforce/subsocial-parachain.git?branch=dev/evm-linking#2da0532dbe1f85f9068bc76ac8d67abe84e0b198"
+source = "git+https://github.com/dappforce/subsocial-parachain.git?branch=tmp/evm-linking#7c8e53d6454eac6124cee762a6e4021188ad9a84"
 dependencies = [
  "frame-benchmarking",
  "frame-support",
  "frame-system",
  "hex",
  "libsecp256k1",
- "log",
  "pallet-transaction-payment",
  "parity-scale-codec",
  "scale-info",
