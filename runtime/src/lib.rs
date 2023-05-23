@@ -441,6 +441,12 @@ impl pallet_roles::Config for Runtime {
 	type WeightInfo = pallet_roles::weights::SubstrateWeight<Runtime>;
 }
 
+impl pallet_post_follows::Config for Runtime {
+	type RuntimeEvent = RuntimeEvent;
+	type WeightInfo = pallet_post_follows::weights::SubstrateWeight<Runtime>;
+
+}
+
 parameter_types! {
   pub const MaxCommentDepth: u32 = 10;
 }
@@ -529,8 +535,9 @@ construct_runtime!(
 		SpaceFollows: pallet_space_follows = 74,
 		SpaceOwnership: pallet_space_ownership = 75,
 		Spaces: pallet_spaces = 76,
-		Posts: pallet_posts = 77,
-		Reactions: pallet_reactions = 78,
+		PostFollows: pallet_post_follows = 77,
+		Posts: pallet_posts = 78,
+		Reactions: pallet_reactions = 79,
 
 		Sudo: pallet_sudo = 255,
 	}
