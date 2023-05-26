@@ -115,7 +115,7 @@ pub const VERSION: RuntimeVersion = RuntimeVersion {
 	spec_name: create_runtime_str!("xsocial"),
 	impl_name: create_runtime_str!("subsocial-xsocial-testnet"),
 	authoring_version: 1,
-	spec_version: 107,
+	spec_version: 108,
 	impl_version: 1,
 	apis: RUNTIME_API_VERSIONS,
 	transaction_version: 4,
@@ -491,11 +491,8 @@ impl pallet_energy::Config for Runtime {
 	type WeightInfo = pallet_energy::weights::SubstrateWeight<Runtime>;
 }
 
-impl pallet_evm_accounts::Config for Runtime {
+impl pallet_evm_addresses::Config for Runtime {
 	type RuntimeEvent = RuntimeEvent;
-	type RuntimeCall = RuntimeCall;
-	// type CallHasher = BlakeTwo256;
-	type MaxLinkedAccounts = ConstU32<256>;
 }
 
 impl pallet_resource_discussions::Config for Runtime {
@@ -525,7 +522,7 @@ construct_runtime!(
 		// Subsocial Pallets
 		// Domains: pallet_domains = 60,
 		Energy: pallet_energy = 61,
-		EvmAccounts: pallet_evm_accounts = 62,
+		EvmAccounts: pallet_evm_addresses = 62,
 		ResourceDiscussions: pallet_resource_discussions = 63,
 
 		Permissions: pallet_permissions = 70,

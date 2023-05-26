@@ -4275,9 +4275,9 @@ dependencies = [
 ]
 
 [[package]]
-name = "pallet-evm-accounts"
+name = "pallet-evm-addresses"
 version = "0.1.8"
-source = "git+https://github.com/dappforce/subsocial-parachain.git?branch=tmp/evm-linking#7c8e53d6454eac6124cee762a6e4021188ad9a84"
+source = "git+https://github.com/dappforce/subsocial-parachain.git?branch=dev/evm-linking#f2dc0d6bf833bb320d6f94d06cd32de64003e0d0"
 dependencies = [
  "frame-benchmarking",
  "frame-support",
@@ -9648,7 +9648,7 @@ dependencies = [
  "pallet-balances",
  "pallet-domains",
  "pallet-energy",
- "pallet-evm-accounts",
+ "pallet-evm-addresses",
  "pallet-grandpa",
  "pallet-permissions 0.1.8 (git+https://github.com/dappforce/subsocial-parachain.git?branch=tmp/resource-discussions)",
  "pallet-post-follows",
