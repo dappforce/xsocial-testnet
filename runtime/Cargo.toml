@@ -1,6 +1,6 @@
 [package]
 name = "xsocial-runtime"
-version = "4.0.0-dev"
+version = "0.2.0"
 description = "A fresh FRAME-based Substrate node, ready for hacking."
 authors = ["Substrate DevHub <https://github.com/substrate-developer-hub>"]
 homepage = "https://substrate.io/"
@@ -66,6 +66,9 @@ pallet-spaces = { default-features = false, git = "https://github.com/dappforce/
 # FIXME: change when merged to main
 pallet-evm-addresses = { default-features = false, git = "https://github.com/dappforce/subsocial-parachain.git", branch = "dev/evm-linking" }
 
+subsocial-support = { default-features = false, git = "https://github.com/dappforce/subsocial-parachain.git", branch = "tmp/resource-discussions" }
+pallet-posts-rpc-runtime-api = { default-features = false, git = "https://github.com/dappforce/subsocial-parachain.git", branch = "tmp/resource-discussions" }
+
 [build-dependencies]
 substrate-wasm-builder = { git = "https://github.com/paritytech/substrate.git", optional = true, branch = "polkadot-v0.9.37" }
 
@@ -118,6 +121,8 @@ std = [
 	"pallet-space-ownership/std",
 	"pallet-spaces/std",
 	"pallet-evm-addresses/std",
+	"subsocial-support/std",
+	"pallet-posts-rpc-runtime-api/std",
 ]
 runtime-benchmarks = [
     "frame-benchmarking/runtime-benchmarks",

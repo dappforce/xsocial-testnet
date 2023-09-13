@@ -1,6 +1,6 @@
 [package]
 name = "xsocial-node"
-version = "4.0.0-dev"
+version = "0.2.0"
 description = "A fresh FRAME-based Substrate node, ready for hacking."
 authors = ["Substrate DevHub <https://github.com/substrate-developer-hub>"]
 homepage = "https://substrate.io/"
@@ -60,7 +60,8 @@ frame-benchmarking = { version = "4.0.0-dev", git = "https://github.com/parityte
 frame-benchmarking-cli = { version = "4.0.0-dev", git = "https://github.com/paritytech/substrate.git", branch = "polkadot-v0.9.37" }
 
 # Local Dependencies
-xsocial-runtime = { version = "4.0.0-dev", path = "../runtime" }
+xsocial-runtime = { path = "../runtime" }
+pallet-posts-rpc = { git = "https://github.com/dappforce/subsocial-parachain.git", branch = "tmp/resource-discussions" }
 
 # CLI-specific dependencies
 try-runtime-cli = { version = "0.10.0-dev", optional = true, git = "https://github.com/paritytech/substrate.git", branch = "polkadot-v0.9.37" }

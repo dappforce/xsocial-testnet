@@ -50,6 +50,8 @@ use pallet_transaction_payment::{ConstFeeMultiplier, Multiplier};
 pub use sp_runtime::BuildStorage;
 pub use sp_runtime::{Perbill, Permill};
 
+use subsocial_support::SpaceId;
+
 /// An index to a block.
 pub type BlockNumber = u32;
 
@@ -731,6 +733,12 @@ impl_runtime_apis! {
 			len: u32,
 		) -> pallet_transaction_payment::FeeDetails<Balance> {
 			TransactionPayment::query_call_fee_details(call, len)
+		}
+	}
+
+	impl pallet_posts_rpc_runtime_api::PostsApi<Block, AccountId> for Runtime {
+		fn check_account_can_create_post(account: AccountId, space_id: SpaceId) -> bool {
+			Posts::check_account_can_create_post(account, space_id)
 		}
 	}
 
