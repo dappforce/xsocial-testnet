@@ -117,7 +117,7 @@ pub const VERSION: RuntimeVersion = RuntimeVersion {
 	spec_name: create_runtime_str!("xsocial"),
 	impl_name: create_runtime_str!("subsocial-xsocial-testnet"),
 	authoring_version: 1,
-	spec_version: 109,
+	spec_version: 110,
 	impl_version: 1,
 	apis: RUNTIME_API_VERSIONS,
 	transaction_version: 4,
@@ -372,13 +372,19 @@ impl InstanceFilter<RuntimeCall> for ProxyType {
 	}
 }
 
+impl pallet_free_proxy::Config for Runtime {
+	type ProxyDepositBase = ProxyDepositBase;
+	type ProxyDepositFactor = ProxyDepositFactor;
+	type WeightInfo = pallet_free_proxy::weights::SubstrateWeight<Runtime>;
+}
+
 impl pallet_proxy::Config for Runtime {
 	type RuntimeEvent = RuntimeEvent;
 	type RuntimeCall = RuntimeCall;
 	type Currency = Balances;
 	type ProxyType = ProxyType;
-	type ProxyDepositBase = ProxyDepositBase;
-	type ProxyDepositFactor = ProxyDepositFactor;
+	type ProxyDepositBase = pallet_free_proxy::AdjustedProxyDepositBase<Runtime>;
+	type ProxyDepositFactor = pallet_free_proxy::AdjustedProxyDepositFactor<Runtime>;
 	type MaxProxies = MaxProxies;
 	type WeightInfo = ();
 	type MaxPending = MaxPending;
@@ -526,6 +532,7 @@ construct_runtime!(
 		Energy: pallet_energy = 61,
 		EvmAccounts: pallet_evm_addresses = 62,
 		ResourceDiscussions: pallet_resource_discussions = 63,
+		FreeProxy: pallet_free_proxy = 64,
 
 		Permissions: pallet_permissions = 70,
 		Roles: pallet_roles = 71,
@@ -585,6 +592,7 @@ mod benches {
 		[frame_system, SystemBench::<Runtime>]
 		[pallet_balances, Balances]
 		[pallet_timestamp, Timestamp]
+		[pallet_free_proxy, FreeProxy]
 	);
 }
 

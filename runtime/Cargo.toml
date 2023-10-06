@@ -49,9 +49,10 @@ frame-benchmarking = { default-features = false, git = "https://github.com/parit
 frame-system-benchmarking = { default-features = false, git = "https://github.com/paritytech/substrate.git", optional = true, branch = "polkadot-v0.9.37" }
 
 # Local Dependencies
-pallet-account-follows = { default-features = false, git = "https://github.com/dappforce/subsocial-parachain.git", rev = "13c229df9fde88dd213bc4c0d4f425064eeedc4e" }
-pallet-domains = { default-features = false, git = "https://github.com/dappforce/subsocial-parachain.git", rev = "13c229df9fde88dd213bc4c0d4f425064eeedc4e" }
-pallet-energy = { default-features = false, git = "https://github.com/dappforce/subsocial-parachain.git", rev = "13c229df9fde88dd213bc4c0d4f425064eeedc4e" }
+pallet-account-follows = { default-features = false, git = "https://github.com/dappforce/subsocial-parachain.git", rev = "a9a66fa515d241947c393084f5e69034bea10ce0" }
+pallet-domains = { default-features = false, git = "https://github.com/dappforce/subsocial-parachain.git", rev = "a9a66fa515d241947c393084f5e69034bea10ce0" }
+pallet-energy = { default-features = false, git = "https://github.com/dappforce/subsocial-parachain.git", rev = "a9a66fa515d241947c393084f5e69034bea10ce0" }
+pallet-free-proxy = { default-features = false, git = "https://github.com/dappforce/subsocial-parachain.git", rev = "a9a66fa515d241947c393084f5e69034bea10ce0" }
 pallet-permissions = { default-features = false, git = "https://github.com/dappforce/subsocial-parachain.git", branch = "tmp/resource-discussions" }
 pallet-post-follows = { default-features = false, git = "https://github.com/dappforce/subsocial-parachain.git", branch = "tmp/resource-discussions" }
 pallet-posts = { default-features = false, git = "https://github.com/dappforce/subsocial-parachain.git", branch = "tmp/resource-discussions" }
@@ -110,6 +111,7 @@ std = [
 	"pallet-account-follows/std",
 	"pallet-domains/std",
 	"pallet-energy/std",
+	"pallet-free-proxy/std",
 	"pallet-permissions/std",
 	"pallet-post-follows/std",
 	"pallet-posts/std",
@@ -137,6 +139,7 @@ runtime-benchmarks = [
     "sp-runtime/runtime-benchmarks",
 	"pallet-domains/runtime-benchmarks",
 	"pallet-energy/runtime-benchmarks",
+	"pallet-free-proxy/runtime-benchmarks",
 	"pallet-reactions/runtime-benchmarks",
 	"pallet-resource-discussions/runtime-benchmarks",
 	"pallet-roles/runtime-benchmarks",
@@ -172,6 +175,7 @@ try-runtime = [
 	"pallet-account-follows/try-runtime",
 	"pallet-domains/try-runtime",
 	"pallet-energy/try-runtime",
+	"pallet-free-proxy/try-runtime",
 	"pallet-permissions/try-runtime",
 	"pallet-posts/try-runtime",
 	"pallet-profiles/try-runtime",
