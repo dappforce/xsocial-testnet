@@ -1,13 +1,16 @@
 [package]
 name = "xsocial-node"
-version = "0.2.0"
-description = "A fresh FRAME-based Substrate node, ready for hacking."
-authors = ["Substrate DevHub <https://github.com/substrate-developer-hub>"]
-homepage = "https://substrate.io/"
+version = "0.2.1"
+description = "Solochain test implementation of Subsocial node."
+authors = ["DappForce <dappforce@pm.me>"]
+homepage = "https://subsocial.network"
 edition = "2021"
 publish = false
 repository = "https://github.com/dappforce/xsocial-testnet/"
 build = "build.rs"
+license = "GPL-3.0-only"
+keywords = ["blockchain", "cryptocurrency", "social-network", "news-feed", "marketplace"]
+categories = ["cryptography::cryptocurrencies"]
 
 [package.metadata.docs.rs]
 targets = ["x86_64-unknown-linux-gnu"]

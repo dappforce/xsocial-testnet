@@ -9631,7 +9631,7 @@ dependencies = [
 
 [[package]]
 name = "xsocial-node"
-version = "0.2.0"
+version = "0.2.1"
 dependencies = [
  "clap",
  "frame-benchmarking",
@@ -9678,7 +9678,7 @@ dependencies = [
 
 [[package]]
 name = "xsocial-runtime"
-version = "0.2.0"
+version = "0.2.1"
 dependencies = [
  "frame-benchmarking",
  "frame-executive",
