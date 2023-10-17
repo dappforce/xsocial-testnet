@@ -4335,7 +4335,7 @@ dependencies = [
 [[package]]
 name = "pallet-permissions"
 version = "0.1.8"
-source = "git+https://github.com/dappforce/subsocial-parachain.git?branch=tmp/resource-discussions#7077a37dd82d333afedd1e445a6f44f4f16d23bf"
+source = "git+https://github.com/dappforce/subsocial-parachain.git?branch=tmp/resource-discussions#b801fb37d240a8e323bde8d7f6ebaa6895c5c4c9"
 dependencies = [
  "frame-support",
  "frame-system",
@@ -4365,7 +4365,7 @@ dependencies = [
 [[package]]
 name = "pallet-post-follows"
 version = "0.1.8"
-source = "git+https://github.com/dappforce/subsocial-parachain.git?branch=tmp/resource-discussions#7077a37dd82d333afedd1e445a6f44f4f16d23bf"
+source = "git+https://github.com/dappforce/subsocial-parachain.git?branch=tmp/resource-discussions#b801fb37d240a8e323bde8d7f6ebaa6895c5c4c9"
 dependencies = [
  "frame-benchmarking",
  "frame-support",
@@ -4381,7 +4381,7 @@ dependencies = [
 [[package]]
 name = "pallet-posts"
 version = "0.1.8"
-source = "git+https://github.com/dappforce/subsocial-parachain.git?branch=tmp/resource-discussions#7077a37dd82d333afedd1e445a6f44f4f16d23bf"
+source = "git+https://github.com/dappforce/subsocial-parachain.git?branch=tmp/resource-discussions#b801fb37d240a8e323bde8d7f6ebaa6895c5c4c9"
 dependencies = [
  "frame-benchmarking",
  "frame-support",
@@ -4401,7 +4401,7 @@ dependencies = [
 [[package]]
 name = "pallet-posts-rpc"
 version = "0.1.9"
-source = "git+https://github.com/dappforce/subsocial-parachain.git?branch=tmp/resource-discussions#7077a37dd82d333afedd1e445a6f44f4f16d23bf"
+source = "git+https://github.com/dappforce/subsocial-parachain.git?branch=tmp/resource-discussions#b801fb37d240a8e323bde8d7f6ebaa6895c5c4c9"
 dependencies = [
  "jsonrpsee",
  "pallet-posts-rpc-runtime-api",
@@ -4417,7 +4417,7 @@ dependencies = [
 [[package]]
 name = "pallet-posts-rpc-runtime-api"
 version = "0.1.9"
-source = "git+https://github.com/dappforce/subsocial-parachain.git?branch=tmp/resource-discussions#7077a37dd82d333afedd1e445a6f44f4f16d23bf"
+source = "git+https://github.com/dappforce/subsocial-parachain.git?branch=tmp/resource-discussions#b801fb37d240a8e323bde8d7f6ebaa6895c5c4c9"
 dependencies = [
  "parity-scale-codec",
  "sp-api",
@@ -4428,7 +4428,7 @@ dependencies = [
 [[package]]
 name = "pallet-profiles"
 version = "0.1.8"
-source = "git+https://github.com/dappforce/subsocial-parachain.git?branch=tmp/resource-discussions#7077a37dd82d333afedd1e445a6f44f4f16d23bf"
+source = "git+https://github.com/dappforce/subsocial-parachain.git?branch=tmp/resource-discussions#b801fb37d240a8e323bde8d7f6ebaa6895c5c4c9"
 dependencies = [
  "frame-benchmarking",
  "frame-support",
@@ -4489,7 +4489,7 @@ dependencies = [
 [[package]]
 name = "pallet-reactions"
 version = "0.1.8"
-source = "git+https://github.com/dappforce/subsocial-parachain.git?branch=tmp/resource-discussions#7077a37dd82d333afedd1e445a6f44f4f16d23bf"
+source = "git+https://github.com/dappforce/subsocial-parachain.git?branch=tmp/resource-discussions#b801fb37d240a8e323bde8d7f6ebaa6895c5c4c9"
 dependencies = [
  "frame-benchmarking",
  "frame-support",
@@ -4509,7 +4509,7 @@ dependencies = [
 [[package]]
 name = "pallet-resource-discussions"
 version = "0.1.8"
-source = "git+https://github.com/dappforce/subsocial-parachain.git?branch=tmp/resource-discussions#7077a37dd82d333afedd1e445a6f44f4f16d23bf"
+source = "git+https://github.com/dappforce/subsocial-parachain.git?branch=tmp/resource-discussions#b801fb37d240a8e323bde8d7f6ebaa6895c5c4c9"
 dependencies = [
  "frame-benchmarking",
  "frame-support",
@@ -4526,7 +4526,7 @@ dependencies = [
 [[package]]
 name = "pallet-roles"
 version = "0.1.8"
-source = "git+https://github.com/dappforce/subsocial-parachain.git?branch=tmp/resource-discussions#7077a37dd82d333afedd1e445a6f44f4f16d23bf"
+source = "git+https://github.com/dappforce/subsocial-parachain.git?branch=tmp/resource-discussions#b801fb37d240a8e323bde8d7f6ebaa6895c5c4c9"
 dependencies = [
  "frame-benchmarking",
  "frame-support",
@@ -4565,7 +4565,7 @@ dependencies = [
 [[package]]
 name = "pallet-space-follows"
 version = "0.1.8"
-source = "git+https://github.com/dappforce/subsocial-parachain.git?branch=tmp/resource-discussions#7077a37dd82d333afedd1e445a6f44f4f16d23bf"
+source = "git+https://github.com/dappforce/subsocial-parachain.git?branch=tmp/resource-discussions#b801fb37d240a8e323bde8d7f6ebaa6895c5c4c9"
 dependencies = [
  "frame-benchmarking",
  "frame-support",
@@ -4580,7 +4580,7 @@ dependencies = [
 [[package]]
 name = "pallet-space-ownership"
 version = "0.1.8"
-source = "git+https://github.com/dappforce/subsocial-parachain.git?branch=tmp/resource-discussions#7077a37dd82d333afedd1e445a6f44f4f16d23bf"
+source = "git+https://github.com/dappforce/subsocial-parachain.git?branch=tmp/resource-discussions#b801fb37d240a8e323bde8d7f6ebaa6895c5c4c9"
 dependencies = [
  "frame-benchmarking",
  "frame-support",
@@ -4595,7 +4595,7 @@ dependencies = [
 [[package]]
 name = "pallet-spaces"
 version = "0.1.8"
-source = "git+https://github.com/dappforce/subsocial-parachain.git?branch=tmp/resource-discussions#7077a37dd82d333afedd1e445a6f44f4f16d23bf"
+source = "git+https://github.com/dappforce/subsocial-parachain.git?branch=tmp/resource-discussions#b801fb37d240a8e323bde8d7f6ebaa6895c5c4c9"
 dependencies = [
  "frame-benchmarking",
  "frame-support",
@@ -7858,13 +7858,14 @@ dependencies = [
 [[package]]
 name = "subsocial-support"
 version = "0.1.8"
-source = "git+https://github.com/dappforce/subsocial-parachain.git?branch=tmp/resource-discussions#7077a37dd82d333afedd1e445a6f44f4f16d23bf"
+source = "git+https://github.com/dappforce/subsocial-parachain.git?branch=tmp/resource-discussions#b801fb37d240a8e323bde8d7f6ebaa6895c5c4c9"
 dependencies = [
  "frame-support",
  "frame-system",
  "pallet-timestamp",
  "parity-scale-codec",
  "scale-info",
+ "serde",
  "sp-std",
  "strum",
 ]

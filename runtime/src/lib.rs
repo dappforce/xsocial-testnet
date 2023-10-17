@@ -28,6 +28,7 @@ use sp_version::RuntimeVersion;
 // A few exports that help ease life for downstream crates.
 pub use frame_support::{
 	construct_runtime, parameter_types,
+	dispatch::DispatchResult,
 	traits::{
 		ConstU128, ConstU32, ConstU64, ConstU8, KeyOwnerProofSystem, Randomness, StorageInfo,
 		InstanceFilter,
@@ -50,7 +51,7 @@ use pallet_transaction_payment::{ConstFeeMultiplier, Multiplier};
 pub use sp_runtime::BuildStorage;
 pub use sp_runtime::{Perbill, Permill};
 
-use subsocial_support::SpaceId;
+use subsocial_support::{Content, PostId, SpaceId};
 
 /// An index to a block.
 pub type BlockNumber = u32;
@@ -745,8 +746,21 @@ impl_runtime_apis! {
 	}
 
 	impl pallet_posts_rpc_runtime_api::PostsApi<Block, AccountId> for Runtime {
-		fn check_account_can_create_post(account: AccountId, space_id: SpaceId) -> bool {
-			Posts::check_account_can_create_post(account, space_id)
+		fn check_account_can_create_post(
+			account: AccountId,
+			space_id: SpaceId,
+			content_opt: Option<Content>,
+		) -> DispatchResult {
+			Posts::check_account_can_create_regular_post(account, space_id, content_opt)
+		}
+
+		fn check_account_can_create_comment(
+            account: AccountId,
+            root_post_id: PostId,
+            parent_id_opt: Option<PostId>,
+            content_opt: Option<Content>
+        ) -> DispatchResult {
+			Posts::check_account_can_create_comment(account, root_post_id, parent_id_opt, content_opt)
 		}
 	}
 
